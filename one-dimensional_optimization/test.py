@@ -4,15 +4,31 @@ import math
 def func_1(x):
     return 4*x**3 - 8*x**2 - 11*x + 5
 
-arr_of_func = [func_1]
+def func_2(x):
+    return x + 3/(x**2)
+
+def func_3(x):
+    return (x+2.5)/(4-x**2)
+
+def func_4(x):
+    return -math.sin(x) - (math.sin(3*x)/3)
+
+def func_5(x):
+    return -2*math.sin(x) - math.sin(2*x) - (2*math.sin(3*x)/3)
+
+arr_of_func = [func_1, func_2,func_3,func_4,func_5]
+minimization_point = [1,1,0,1.5,1.5]
 
 class TestSingleVariableOptimization(unittest.TestCase):
 
     def test_passive_search(self):
         print("test_passive_search")
         from passive_search import passive_search
-        for func in arr_of_func:
-            min_index = passive_search(-1, 2, 10, func)
+        for index in range(len(arr_of_func)):
+            h = 2
+            func = arr_of_func[index]
+            point = minimization_point[index]
+            min_index = passive_search(point-h, point+h, 20, func)
             min_value = func(min_index)
 
             print(f"x={min_index} y={min_value}")
@@ -20,8 +36,10 @@ class TestSingleVariableOptimization(unittest.TestCase):
     def test_method_devisa_svenna_campy(self):
         print("test_method_devisa_svenna_campy")
         from method_devisa_svenna_campy import search_local_min
-        for func in arr_of_func:
-            a,b = search_local_min(func, 0)
+        for index in range(len(arr_of_func)):
+            func = arr_of_func[index]
+            point = minimization_point[index]
+            a,b = search_local_min(func, point)
 
             print(f"a={a} b={b}")
         

@@ -2,6 +2,7 @@ from typing import Callable, Tuple
 
 def search_local_min(func: Callable[[float], float], x0: float, h: float = 0.0001) -> Tuple[float, float]:
     f0 = func(x0)
+    a = b = x0
     if f0 > func(x0+h):
         a = x0
     elif func(x0-h) >= f0:
@@ -16,7 +17,9 @@ def search_local_min(func: Callable[[float], float], x0: float, h: float = 0.000
     def xk(k: int):
         return x0 + (2**(k-1))*h
 
+    
     def assign_if(is_a, value):
+        nonlocal a, b
         if is_a:
             a = value
         else:
