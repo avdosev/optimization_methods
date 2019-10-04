@@ -1,6 +1,6 @@
 from typing import Callable, Tuple
 
-def search_local_min(func: Callable[[float], float], x0: float, h: float = 0.001) -> Tuple[float, float]:
+def search_local_min(func: Callable[[float], float], x0: float, h: float = 0.0001) -> Tuple[float, float]:
     f0 = func(x0)
     f_step = func(x0+h)
     if f0 > f_step:
@@ -27,6 +27,7 @@ def search_local_min(func: Callable[[float], float], x0: float, h: float = 0.001
                 b = xk0
             else:
                 a = xk0
+            break
         else:
             if h > 0:
                 a = xk1

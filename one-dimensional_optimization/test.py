@@ -9,6 +9,7 @@ arr_of_func = [func_1]
 class TestSingleVariableOptimization(unittest.TestCase):
 
     def test_passive_search(self):
+        print("test_passive_search")
         from passive_search import passive_search
         for func in arr_of_func:
             min_index = passive_search(-1, 2, 10, func)
@@ -17,9 +18,11 @@ class TestSingleVariableOptimization(unittest.TestCase):
             print(f"x={min_index} y={min_value}")
 
     def test_method_devisa_svenna_campy(self):
+        print("test_method_devisa_svenna_campy")
         from method_devisa_svenna_campy import search_local_min
         for func in arr_of_func:
             a,b = search_local_min(func, 0)
+
             print(f"a={a} b={b}")
         
 if __name__ == '__main__':
