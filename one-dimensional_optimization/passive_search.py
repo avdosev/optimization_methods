@@ -1,6 +1,6 @@
 import numpy as np
-
-def passive_search(a: float, b: float, N: int, func) -> float:
+from typing import Callable
+def passive_search(a: float, b: float, N: int, func: Callable[[float], float]) -> float:
     step = (b-a)/N
     x_points = np.arange(a, b+step, step)
 
