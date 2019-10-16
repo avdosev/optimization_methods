@@ -20,10 +20,8 @@ class TestMultiVariableOptimization(unittest.TestCase):
             return res.x[0]
 
         res = coordinate_descent(fnc, 2, odm)
-
         print(res)
-
-        pass
+        self.assertEqual(fnc(*res), 0.)
         
 if __name__ == '__main__':
     unittest.main()

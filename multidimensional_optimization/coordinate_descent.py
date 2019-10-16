@@ -3,7 +3,7 @@ from typing import Callable
 
 def coordinate_descent(func: Callable[..., float], N: int, odm: Callable[[Callable[[float], float], float, float], float], eps: float = 0.0001, step_crushing_ratio: float = 0.1):
     k = 0
-    h = np.array([1]*N)
+    h = np.array([1.0]*N)
     x_points = [ [0]*N ]
 
     def euclidean_norm(h: np.array):
@@ -18,12 +18,12 @@ def coordinate_descent(func: Callable[..., float], N: int, odm: Callable[[Callab
                 nonlocal i, func, args
                 args[i] = x
                 return func(*args)
-            print(args, h)
+                
             ak = odm(odm_func, args[i], h[i])  
 
-            x_points[k+1][i] = x_points[k][i] + ak*h[i]
+            x_points[k+1][i] = x_points[k][i] + ak/h
 
-        if x_points[k+1] != x_points[k]:
+        if any([abs(x_points[k+1][i] - x_points[k][i]) > eps for i in range(N)]):
             k+=1
             continue 
 
