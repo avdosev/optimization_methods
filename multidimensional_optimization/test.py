@@ -28,17 +28,19 @@ class TestMultiVariableOptimization(unittest.TestCase):
 
         def odm(fnc, x0, h):
             res = minimize(fnc, x0, method='nelder-mead',
-                options={'xtol': h, 'disp': False})
+                options={'xatol': h, 'disp': False})
             
             return res.x[0]
 
         res = coordinate_descent(fnc, 2, odm)
         print(res)
         eps = 0.001
-        self.assertEqual(abs(fnc(*res) - eps) < eps, True)
+        func_res = 0.
+        self.assertTrue(abs(fnc(*res) - func_res) < eps)
 
     def test_hooke_jeeves(self):
         from HookeJeeves import HJ
+
         funcToTest = f1
         startPoint = [0.,0.]
         step = [1.,1.]
@@ -46,7 +48,11 @@ class TestMultiVariableOptimization(unittest.TestCase):
         res = HJ(startPoint,step,precision, funcToTest)
         print(res)
         print(funcToTest(res))
-        pass
+        
+        eps = 0.001
+        func_res = 0.
+        fnc = funcToTest
+        self.assertTrue(abs(fnc(res) - func_res) < eps)
 
     def test_fletcher_reeves(self):
         from FletcherReeves import FR
@@ -57,6 +63,11 @@ class TestMultiVariableOptimization(unittest.TestCase):
         res = FR(startPoint,step,precision, funcToTest)
         print(res)
         print(funcToTest(res))
+
+        eps = 0.001
+        func_res = 0.
+        fnc = funcToTest
+        self.assertTrue(abs(fnc(res) - func_res) < eps)
         
 if __name__ == '__main__':
     unittest.main()
