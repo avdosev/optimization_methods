@@ -21,7 +21,7 @@ def coordinate_descent(func: Callable[..., float], N: int, odm: Callable[[Callab
                 
             ak = odm(odm_func, args[i], h[i])  
 
-            x_points[k+1][i] = x_points[k][i] + ak/h
+            x_points[k+1][i] = ak
 
         if any([abs(x_points[k+1][i] - x_points[k][i]) > eps for i in range(N)]):
             k+=1

@@ -16,12 +16,12 @@ class TestMultiVariableOptimization(unittest.TestCase):
             res = minimize(fnc, x0, method='nelder-mead',
                 options={'xtol': h, 'disp': True})
             
-
             return res.x[0]
 
         res = coordinate_descent(fnc, 2, odm)
         print(res)
-        self.assertEqual(fnc(*res), 0.)
+        eps = 0.001
+        self.assertEqual(abs(fnc(*res) - eps) < eps, True)
         
 if __name__ == '__main__':
     unittest.main()
