@@ -57,24 +57,3 @@ def HJ(b1, h, e, f):
                     runOuterLoop = True #to step1
     return b1 #step10
 
-def f1(x):
-    return 4*pow((x[0]-5),2) + pow((x[1]-6),2) #ожидаемый — [5;6]
-
-def f2(x):
-    return pow(x[0]*x[0]+x[1]-11, 2) + pow(x[0]+x[1]*x[1]-7,2)
-
-def f3(x):
-    return (100*(x[1]-x[0]**2)**2 + 
-    (1-x[0])**2 + 
-    90*(x[3]-x[2]**2)**2 + 
-    (1-x[2])**2 + 
-    10.1*((x[1]-1)**2+(x[3]-1)**2) + 
-    19.8*(x[1]-1)*(x[3]-1))
-
-funcToTest = f1
-startPoint = [0.,0.]
-step = [1.,1.]
-precision = 0.01
-res = HJ(startPoint,step,precision, funcToTest)
-print(res)
-print(funcToTest(res))
