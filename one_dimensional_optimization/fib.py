@@ -5,9 +5,10 @@ class FibonacciImpl:
         if num < len(self.arr):
             return self.arr[num]
         else:
-           new_fib = self.calculate(num-2) + self.calculate(num-1)
-           self.arr.append(new_fib)
-           return new_fib
+            for i in range(len(self.arr)-1, num):
+                new_fib = self.arr[i-1] + self.arr[i]
+                self.arr.append(new_fib)
+            return self.arr[num]
 
 fib_impl = FibonacciImpl()
 
@@ -17,6 +18,7 @@ def fib(num):
 
 def metod_fib(func, a, b, eps=0.001, sigma=0.001 / 10):
     N = int((b - a) / (2 * eps))
+    print('tyt N - ',N)
     x1 = a + fib(N - 2) / fib(N) * (b - a)
     x2 = a + fib(N - 1) / fib(N) * (b - a)
     for k in range(2, N - 2):

@@ -53,12 +53,12 @@ class TestSingleVariableOptimization(unittest.TestCase):
             [0, 3],
             [-2, 2],
             [0, 3],
-            [0, 5]
+            # [0, 5]
         ]
-        expected = [1.833, 1.817, -1, 0.785, 0.785]
+        expected = [1.833, 1.817, 0, 0.785, 0.785]
         for i, item in enumerate(otr):
             print("\nTEST ", i)
-            res = metod_fib(arr_of_func[i], otr[i][0], otr[i][1], eps=0.01)
+            res = metod_fib(arr_of_func[i], otr[i][0], otr[i][1], eps=0.001)
             print("Экспериментально:", res)
             print("Ожидаемо", expected[i])
             self.assertAlmostEqual(res, expected[i], places=3)  # после третьего знака не учитываем различие
