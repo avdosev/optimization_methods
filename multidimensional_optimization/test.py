@@ -52,7 +52,8 @@ class TestMultiVariableOptimization(unittest.TestCase):
         eps = 0.001
         func_res = 0.
         fnc = funcToTest
-        self.assertTrue(abs(fnc(res) - func_res) < eps)
+        self.assertAlmostEqual(fnc(res) - func_res, fnc(res), eps)
+        
 
     def test_fletcher_reeves(self):
         from FletcherReeves import FR
