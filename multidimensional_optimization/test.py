@@ -7,7 +7,7 @@ import scipy
 from scipy.optimize import minimize
 
 def f1(x):
-    return 4*pow((x[0]-5),2) + pow((x[1]-6),2) #ожидаемый — [5;6]
+    return 4*pow((x[0]-5),2) + pow((x[1]-6),2) 
 
 def f2(x):
     return pow(x[0]*x[0]+x[1]-11, 2) + pow(x[0]+x[1]*x[1]-7,2)
@@ -41,19 +41,20 @@ class TestMultiVariableOptimization(unittest.TestCase):
     def test_hooke_jeeves(self):
         from HookeJeeves import HJ
 
-        funcToTest = f1
+        funcsToTest = [f1, f2, f3] 
         startPoint = [0.,0.]
         step = [1.,1.]
         precision = 0.01
-        res = HJ(startPoint,step,precision, funcToTest)
-        print(res)
-        print(funcToTest(res))
         
         eps = 0.001
         func_res = 0.
-        fnc = funcToTest
-        self.assertAlmostEqual(fnc(res) - func_res, fnc(res), eps)
-        
+        for i, fnc in enumerate(funcsToTest):
+            print("\nTEST ", i+1 )
+            res = HJ(startPoint,step,precision, fnc)
+            print("Получено: ", fnc(res) - func_res)
+            print("Должно быть: ", fnc(res))
+            self.assertAlmostEqual(fnc(res) - func_res, fnc(res), eps)
+            
 
     def test_fletcher_reeves(self):
         from FletcherReeves import FR
