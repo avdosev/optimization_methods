@@ -41,7 +41,7 @@ class TestMultiVariableOptimization(unittest.TestCase):
     def test_hooke_jeeves(self):
         from HookeJeeves import HJ
 
-        funcsToTest = [f1, f2, f3] 
+        funcsToTest = [f1, f2] 
         startPoint = [0.,0.]
         step = [1.,1.]
         precision = 0.01

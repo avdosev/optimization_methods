@@ -48,18 +48,17 @@ class TestSingleVariableOptimization(unittest.TestCase):
         from fib import FibonacciImpl
         fib = FibonacciImpl()
         print("Fib test")
-        otr = [
+        lineSearch = [
             [0, 10],
             [0, 3],
             [0, 3],
             [-2, 2],
             [0, 3],
-            [0, 5]
         ]
-        expected = [1.833, 1.817, -1, 0.785, 0.785]
-        for i, item in enumerate(otr):
-            print("\nTEST ", i)
-            res = fib.metod_fib(arr_of_func[i], otr[i][0], otr[i][1], eps=0.01)
+        expected = [1.833, 1.817, 0, 0.785, 0.785]
+        for i, item in enumerate(lineSearch):
+            print("\nTEST ", i+1)
+            res = fib.metod_fib(arr_of_func[i], lineSearch[i][0], lineSearch[i][1], eps=0.01)
             print("Экспериментально:", res)
             print("Ожидаемо", expected[i])
             self.assertAlmostEqual(res, expected[i], places=3)  # после третьего знака не учитываем различие
