@@ -58,7 +58,7 @@ class TestSingleVariableOptimization(unittest.TestCase):
         expected = [1.833, 1.817, 0, 0.785, 0.785]
         for i, item in enumerate(lineSearch):
             print("\nTEST ", i+1)
-            res = fib.metod_fib(arr_of_func[i], lineSearch[i][0], lineSearch[i][1], eps=0.01) # 0.001 вызовет рекурсивное зацикливание, не делай так
+            res = metod_fib(arr_of_func[i], lineSearch[i][0], lineSearch[i][1], eps=0.01) # 0.001 вызовет рекурсивное зацикливание, не делай так
 
             print("Экспериментально:", res)
             print("Ожидаемо", expected[i])
