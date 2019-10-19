@@ -31,7 +31,7 @@ funcsToTest = [f1, f2,f3,f4]
 startPoint = [[0.,0.],[0.,0.],[0.,0.,0.,0.],[1.,1.,1.,1.]]
 step = [[1.,1.],[1.,1.],[1.,1.,1.,1.],[1.,1.,1.,1.]]
 precision = 0.01
-func_res = [0.,0.,7.89,0.]
+func_res = [0.,0.,0.,0.]
         
 
 class TestMultiVariableOptimization(unittest.TestCase):
@@ -54,6 +54,9 @@ class TestMultiVariableOptimization(unittest.TestCase):
 
     def test_hooke_jeeves(self):
         from HookeJeeves import HJ
+        print("-----------------------")
+        print("test_hooke_jeeves")
+        print("-----------------------")
         eps = precision
         for i in range(len(funcsToTest)):
             print("\nTEST ", i+1 )
@@ -66,8 +69,12 @@ class TestMultiVariableOptimization(unittest.TestCase):
 
     def test_fletcher_reeves(self):
         from FletcherReeves import FR
+        print("-----------------------")
+        print("test_fletcher_reeves")
+        print("-----------------------")
         eps = precision
         for i in range(len(funcsToTest)):
+            print("\nTEST ", i+1 )
             res = FR(startPoint[i],step[i],precision, funcsToTest[i])
             print("Получено:",  funcsToTest[i](res))
             print("Должно быть: ", func_res[i])
