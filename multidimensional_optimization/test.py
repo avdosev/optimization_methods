@@ -20,6 +20,20 @@ def f3(x):
     10.1*((x[1]-1)**2+(x[3]-1)**2) + 
     19.8*(x[1]-1)*(x[3]-1))
 
+def f4(x):
+    x1,x2,x3,x4 = x
+    return ((x1+10*x2)**2+
+            5*(x3-x4)**2+
+            (x2-2*x3)**4+
+            10*(x1-x4)**4)
+
+funcsToTest = [f1, f2,f3,f4] 
+startPoint = [[0.,0.],[0.,0.],[0.,0.,0.,0.],[1.,1.,1.,1.]]
+step = [[1.,1.],[1.,1.],[1.,1.,1.,1.],[1.,1.,1.,1.]]
+precision = 0.01
+func_res = [0.,0.,7.89,0.]
+        
+
 class TestMultiVariableOptimization(unittest.TestCase):
     def test_coordinate_descense(self):
         from coordinate_descent import coordinate_descent
@@ -34,43 +48,32 @@ class TestMultiVariableOptimization(unittest.TestCase):
 
         res = coordinate_descent(fnc, 2, odm)
         print(res)
-        eps = 0.001
+        eps = precision
         func_res = 0.
         self.assertTrue(abs(fnc(*res) - func_res) < eps)
 
     def test_hooke_jeeves(self):
         from HookeJeeves import HJ
-
-        funcsToTest = [f1, f2] 
-        startPoint = [0.,0.]
-        step = [1.,1.]
-        precision = 0.01
-        
-        eps = 0.001
-        func_res = 0.
-        for i, fnc in enumerate(funcsToTest):
+        eps = precision
+        for i in range(len(funcsToTest)):
             print("\nTEST ", i+1 )
-            res = HJ(startPoint,step,precision, fnc)
-            print("Получено: ", fnc(res) - func_res)
-            print("Должно быть: ", fnc(res))
-            self.assertAlmostEqual(fnc(res) - func_res, fnc(res), eps)
+            res = HJ(startPoint[i],step[i],precision, funcsToTest[i])
+            print("Получено:",  funcsToTest[i](res))
+            print("Должно быть: ", func_res[i])
+            print("Разница: ", funcsToTest[i](res) - func_res[i])
+            self.assertAlmostEqual(func_res[i], funcsToTest[i](res), delta=eps)
             
 
     def test_fletcher_reeves(self):
         from FletcherReeves import FR
-        funcToTest = f1
-        startPoint = [0.,0.]
-        step = [1.,1.]
-        precision = 0.01
-        res = FR(startPoint,step,precision, funcToTest)
-        print(res)
-        print(funcToTest(res))
-
-        eps = 0.001
-        func_res = 0.
-        fnc = funcToTest
-        self.assertTrue(abs(fnc(res) - func_res) < eps)
-        
+        eps = precision
+        for i in range(len(funcsToTest)):
+            res = FR(startPoint[i],step[i],precision, funcsToTest[i])
+            print("Получено:",  funcsToTest[i](res))
+            print("Должно быть: ", func_res[i])
+            print("Разница: ", funcsToTest[i](res) - func_res[i])
+            self.assertAlmostEqual(func_res[i], funcsToTest[i](res), delta=eps)
+            
 if __name__ == '__main__':
     unittest.main()
         
