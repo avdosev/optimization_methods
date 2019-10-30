@@ -5,7 +5,7 @@ from typing import Callable, List
 def euclidean_norm(h: np.array):
     return np.sqrt((h**2).sum())
 
-def optimal_gradient_method(func: Callable[..., float], N: int, x0: List[float], eps: float = 0.0001, step_crushing_ratio: float = 0.1):
+def optimal_gradient_method(func: Callable[[List[float]], float], x0: List[float], eps: float = 0.0001, step_crushing_ratio: float = 0.1):
     x = np.array(x0)
 
     def grad(func, xcur, eps) -> np.array:
