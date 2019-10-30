@@ -64,6 +64,28 @@ class TestSingleVariableOptimization(unittest.TestCase):
             print("Ожидаемо", expected[i])
             self.assertAlmostEqual(res, expected[i], places=3)  # после третьего знака не учитываем различие
 
+    def test_powell(self):
+        from powell import powell
+        print ("test_powell")
+        lineSearch = [
+            [0, 10],
+            [1, 4],
+            [-1, 1],
+            [-2, 3],
+            [0, 1.5]
+            #[0,5]
+        ]
+        expected = [1.833, 1.817, -1, 0.785, 0.785]
+        for i,item in enumerate(lineSearch):
+            print("\nTEST ", i+1)
+            res = powell(arr_of_func[i], lineSearch[i][0], lineSearch[i][1], 0.01) # 0.001 вызовет рекурсивное зацикливание, не делай так
+
+            print("Экспериментально:", res)
+            print("Ожидаемо", expected[i])
+            self.assertAlmostEqual(res, expected[i], delta=0.01)  # после третьего знака не учитываем различие
+
+
+
         
 if __name__ == '__main__':
     unittest.main()

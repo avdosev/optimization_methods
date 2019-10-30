@@ -56,4 +56,3 @@ def HJ(b1, h, e, f):
                         h[i] = h[i]* z 
                     runOuterLoop = True #to step1
     return b1 #step10
-
