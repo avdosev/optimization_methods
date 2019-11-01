@@ -50,18 +50,18 @@ while (True):
     functionToTest = funcsToTestArr[chosenFun-1]
     step = stepArr[chosenFun-1]
 
-    print("""
-    Использовать начальную точку по умолчанию? (y/n)
-    """)
-    chosenStartpoint = input()
+    # print("""
+    # Использовать начальную точку по умолчанию? (y/n)
+    # """)
+    # chosenStartpoint = input()
     
-    if (chosenStartpoint=='y'):
-        startPoint = startPointArr[chosenFun-1]
-    else:
-        print("Введите начальную точку: ")
-        startPoint = []
-        for i in range(sizeArr[chosenFun-1]):
-            startPoint.append(int(input()))
+    # if (chosenStartpoint=='y'):
+    startPoint = startPointArr[chosenFun-1]
+    # else:
+    #     print("Введите начальную точку: ")
+    #     startPoint = []
+    #     for i in range(sizeArr[chosenFun-1]):
+    #         startPoint.append(int(input()))
 
     if chosenMethod==1:
         result = fr.FR(startPoint, step, eps, functionToTest)
@@ -75,9 +75,4 @@ while (True):
     elif chosenMethod==4:
         result = og.optimal_gradient_method(functionToTest, startPoint, eps)
     
-    print(result)
-
-
-    
-
-
+    print("Решение:", result, ", значение функции в этой точке: ", functionToTest(result))
