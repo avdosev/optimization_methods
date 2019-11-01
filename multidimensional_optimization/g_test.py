@@ -48,11 +48,26 @@ def makeData(fun):
 
     return xgrid, ygrid, zgrid
 
+import FletcherReeves
+
+funcsToTest = [f1, f2,f3,f4] 
+startPoint = [[0.,0.],[0.,0.],[0.,0.,0.,0.],[1.,1.,1.,1.]]
+step = [[1.,1.],[1.,1.],[1.,1.,1.,1.],[1.,1.,1.,1.]]
+precision = 0.01
+func_res = [0.,0.,0.,0.]
 
 if __name__ == '__main__':
-    lev = [0.2, 1, 5, 10, 25, 50, 100, 200]
+    lev = [1, 5, 10, 25, 50, 100, 200]
     x, y, z = makeData(f2)
 
     fig, axes = plt.subplots(1,1)
     axes.contour(x, y, z, levels = lev, colors='k')
+
+    res = FletcherReeves.FR(startPoint[0], step[0], 0.01, funcsToTest[1])
+    testP = FletcherReeves.FRPath
+
+    for point in testP:
+        plt.scatter(point[0], point[1], c='r', s=2,)
+
+    print(res)
     plt.show()
