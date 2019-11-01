@@ -80,6 +80,21 @@ class TestMultiVariableOptimization(unittest.TestCase):
             print("Должно быть: ", func_res[i])
             print("Разница: ", funcsToTest[i](res) - func_res[i])
             self.assertAlmostEqual(func_res[i], funcsToTest[i](res), delta=eps)
+
+    def test_optimal_gradient(self):
+        from optimal_gradient_method import optimal_gradient_method
+        print("-----------------------")
+        print("optimal_gradient_method")
+        print("-----------------------")
+        eps = precision
+        for i in range(len(funcsToTest)):
+            print("\nTEST ", i+1 )
+            res = optimal_gradient_method(funcsToTest[i], startPoint[i])
+            print("Получено:",  funcsToTest[i](res))
+            print("Должно быть: ", func_res[i])
+            print("Разница: ", funcsToTest[i](res) - func_res[i])
+            self.assertAlmostEqual(func_res[i], funcsToTest[i](res), delta=eps)
+
             
 if __name__ == '__main__':
     unittest.main()
