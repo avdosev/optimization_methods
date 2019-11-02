@@ -1,5 +1,5 @@
 import numpy as np
-from typing import Callable
+from typing import Callable, List
 
 def coordinate_descent(func: Callable[..., float], N: int, odm: Callable[[Callable[[float], float], float, float], float], eps: float = 0.0001, step_crushing_ratio: float = 0.1):
     k = 0
