@@ -14,10 +14,10 @@ def optimal_gradient_method(func: Callable[[List[float]], float], x0: List[float
     gr = grad(func, x, eps)
     a = 0.
 
-    while euclidean_norm(gr) > eps:
+    while any([abs(gr[i]) > eps for i in range(len(gr))]):
+        gr = grad(func, x, eps)
         a = optimize.minimize_scalar(lambda koef: func(*[x+koef*gr])).x
         x += a*gr
-        gr = grad(func, x, eps)
     
     return x
 
