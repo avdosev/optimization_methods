@@ -3,6 +3,8 @@ import FletcherReeves as fr
 import optimal_gradient_method as og
 import coordinate_descent as cd
 
+from scipy.optimize import minimize
+
 def f1(x):
     return 4*pow((x[0]-5),2) + pow((x[1]-6),2) 
 
@@ -71,8 +73,12 @@ while (True):
         def odm(fnc, x0, h):
             res = minimize(fnc, x0, method='nelder-mead',
                 options={'xatol': h, 'disp': False})
-        result = cd.coordinate_descent(functionToTest, sizeArr[chosenFun-1], odm, eps)
+
+            return res.x[0]
+        def fff(*args):
+            return functionToTest(args)
+        result = cd.coordinate_descent(fff, sizeArr[chosenFun-1], odm, eps)
     elif chosenMethod==4:
-        result = og.optimal_gradient_method(functionToTest, startPoint, eps)
+        result = og.optimal_gradient_method(functionToTest, startPoint, eps*eps)
     
     print("Решение:", result, ", значение функции в этой точке: ", functionToTest(result))

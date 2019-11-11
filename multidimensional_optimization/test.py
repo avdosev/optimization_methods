@@ -38,19 +38,24 @@ class TestMultiVariableOptimization(unittest.TestCase):
     def test_coordinate_descense(self):
         from coordinate_descent import coordinate_descent
 
-        fnc = lambda x1, x2: 4*(x1 - 5)**2 + (x2 - 6)**2
-
         def odm(fnc, x0, h):
             res = minimize(fnc, x0, method='nelder-mead',
                 options={'xatol': h, 'disp': False})
             
             return res.x[0]
 
-        res = coordinate_descent(fnc, 2, odm)
-        print(res)
+        print("-----------------------")
+        print("coordinate_descense")
+        print("-----------------------")
         eps = precision
-        func_res = 0.
-        self.assertTrue(abs(fnc(*res) - func_res) < eps)
+        for i in range(len(funcsToTest)):
+            print("\nTEST ", i+1 )
+            res = coordinate_descent(lambda *args: funcsToTest[i](args), len(startPoint[i]), odm)
+            print("Точки:", res)
+            print("Получено:",  funcsToTest[i](res))
+            print("Должно быть: ", func_res[i])
+            print("Разница: ", funcsToTest[i](res) - func_res[i])
+            self.assertAlmostEqual(func_res[i], funcsToTest[i](res), delta=eps)
 
     def test_hooke_jeeves(self):
         from HookeJeeves import HJ
@@ -61,6 +66,7 @@ class TestMultiVariableOptimization(unittest.TestCase):
         for i in range(len(funcsToTest)):
             print("\nTEST ", i+1 )
             res = HJ(startPoint[i],step[i],precision, funcsToTest[i])
+            print("Точки:", res)
             print("Получено:",  funcsToTest[i](res))
             print("Должно быть: ", func_res[i])
             print("Разница: ", funcsToTest[i](res) - func_res[i])
@@ -76,10 +82,27 @@ class TestMultiVariableOptimization(unittest.TestCase):
         for i in range(len(funcsToTest)):
             print("\nTEST ", i+1 )
             res = FR(startPoint[i],step[i],precision, funcsToTest[i])
+            print("Точки:", res)
             print("Получено:",  funcsToTest[i](res))
             print("Должно быть: ", func_res[i])
             print("Разница: ", funcsToTest[i](res) - func_res[i])
             self.assertAlmostEqual(func_res[i], funcsToTest[i](res), delta=eps)
+
+    def test_optimal_gradient(self):
+        from optimal_gradient_method import optimal_gradient_method
+        print("-----------------------")
+        print("optimal_gradient_method")
+        print("-----------------------")
+        eps = precision
+        for i in range(len(funcsToTest)):
+            print("\nTEST ", i+1 )
+            res = optimal_gradient_method(funcsToTest[i], startPoint[i])
+            print("Точки:", res)
+            print("Получено:",  funcsToTest[i](res))
+            print("Должно быть: ", func_res[i])
+            print("Разница: ", funcsToTest[i](res) - func_res[i])
+            self.assertAlmostEqual(func_res[i], funcsToTest[i](res), delta=eps)
+
             
 if __name__ == '__main__':
     unittest.main()
