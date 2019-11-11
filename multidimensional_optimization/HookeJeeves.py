@@ -20,6 +20,12 @@ def utilSearch(b, h, f):
                 fb = fc
     return bres
 
+
+Path1 = []
+Path2 = []
+Path3 = []
+Path4 = []
+
 #2.1.2.1
 # Метод конфигураций Хука-Дживса
 # Находит минимум многомерной функции
@@ -31,11 +37,18 @@ def HJ(b1, h, e, f):
         runInnerLoop = True
         xk = b1 #step1
         b2 = utilSearch(b1, h, f) #step2
+        Path1.append(b1)
+        Path2.append(b2)
+        Path3.append(xk)
         while (runInnerLoop):
+            Path1.append(b1)
+            Path2.append(b2)
             runInnerLoop = False
             for i in range(len(b1)):#step3
                 xk[i] = b1[i] + 2*(b2[i]-b1[i])
+            Path3.append(xk)
             x = utilSearch(xk, h, f) #step4
+            Path4.append(x)
             b1 = b2 #step5
             fx = f(x)
             fb1 = f(b1)

@@ -23,11 +23,20 @@ def f4(x):
             (x2-2*x3)**4+
             10*(x1-x4)**4)
 
-def makeData(fun):
-    xstart = -5
-    xend = 5
-    ystart = -5
-    yend = 5
+
+    
+
+
+
+
+
+funcsToTest = [f1, f2,f3,f4] 
+startPoint = [[0.,0.],[0.,0.],[0.,0.,0.,0.],[1.,1.,1.,1.]]
+step = [[1.,1.],[1.,1.],[1.,1.,1.,1.],[1.,1.,1.,1.]]
+precision = 0.01
+func_res = [0.,0.,0.,0.]
+
+def makeData(fun, xstart, xend, ystart,yend):
     # eps = 0.05
     # x = numpy.arange(xstart, xend, eps)
     # y = numpy.arange(ystart, yend, eps)
@@ -38,36 +47,39 @@ def makeData(fun):
     zgrid = np.empty([div, div])
     for j in range(0, len(x)):
         for i in range(0, len(y)):
-            zgrid[i][j]=fun([x[j],y[i]])
-    
-
-    # zgrid = []
-    # for x,y in xr,yr:
-    #     zgrid.append(fun([x,y]))
-    # zgrid = np.array(zgrid)    
+            zgrid[i][j]=fun([x[j],y[i]]) 
 
     return xgrid, ygrid, zgrid
 
 import FletcherReeves
-
-funcsToTest = [f1, f2,f3,f4] 
-startPoint = [[0.,0.],[0.,0.],[0.,0.,0.,0.],[1.,1.,1.,1.]]
-step = [[1.,1.],[1.,1.],[1.,1.,1.,1.],[1.,1.,1.,1.]]
-precision = 0.01
-func_res = [0.,0.,0.,0.]
+import HookeJeeves
 
 if __name__ == '__main__':
     lev = [1, 5, 10, 25, 50, 100, 200]
-    x, y, z = makeData(f2)
+    x, y, z = makeData(funcsToTest[1], -5, 5, -5, 5)
 
     fig, axes = plt.subplots(1,1)
     axes.contour(x, y, z, levels = lev, colors='k')
 
-    res = FletcherReeves.FR(startPoint[0], step[0], 0.01, funcsToTest[1])
-    testP = FletcherReeves.FRPath
+    # res = FletcherReeves.FR(startPoint[0], step[0], 0.01, funcsToTest[0])
+    # testP = FletcherReeves.Path
+    res = HookeJeeves.HJ(startPoint[0], step[0], 0.01, funcsToTest[1])
+    test1 = HookeJeeves.Path1
+    test2 = HookeJeeves.Path2
+    test3 = HookeJeeves.Path3
+    test4 = HookeJeeves.Path4
 
-    for point in testP:
-        plt.scatter(point[0], point[1], c='r', s=2,)
+    for point in test1:
+        plt.scatter(point[0], point[1], color='red', s=2)
+
+    # for point in test2:
+    #     plt.scatter(point[0], point[1], color='blue', s=2)
+
+    # for point in test3:
+    #     plt.scatter(point[0], point[1], color='green', s=2)
+
+    # for point in test4:
+    #     plt.scatter(point[0], point[1], color='black', s=2)
 
     print(res)
     plt.show()
