@@ -66,7 +66,7 @@ def NR(x0, h, e, f, hess_f):
     n = len(x0)
 
     grad = optimize.approx_fprime(xcur, f, e**4) # step2
-    while (any([abs(grad[i]) > e for i in range(n)])): # step3
+    while (any([pow(abs(grad[i]),1.5) > e for i in range(n)])): # step3
         h = np.linalg.inv(hess_f(xcur)) # step 4 & 5
         pk = (-1*h).dot(grad) # step 6
         a = (optimize.minimize_scalar(lambda a: f(xcur+pk*a), bounds=(0,)).x) #step7
