@@ -3,10 +3,10 @@ def f1(x):
     return x1**2+x2**2
 
 restrictionsOfEquality = [
-    [[1,1,-2]],
-    [[1,1,-2]],
-    [[1,0,-1]],
-    [[1,0,-1]],
+    [lambda x1,x2: x1+x2-2],
+    [lambda x1,x2: x1+x2-2],
+    [lambda x1,x2: x1-1],
+    [lambda x1,x2: x1-1],
     [],
     []
 ]
@@ -14,10 +14,10 @@ restrictionsOfEquality = [
 restrictionsOfNotEquality = [
     [],
     [],
-    [[1,1,-2]],
-    [[1,1,-2]],
-    [[-1,0,1],[1,1,-2]],
-    [[-1,0,1],[1,1,-2]]
+    [lambda x1,x2: x1+x2-2],
+    [lambda x1,x2: x1+x2-2],
+    [lambda x1,x2: -x1+1,lambda x1,x2: x1+x2-2],
+    [lambda x1,x2: -x1+1,lambda x1,x2: x1+x2-2]
 ]
 
 startPoints = [
@@ -41,11 +41,31 @@ funcsToTest = [
 import barrier
 import penalty
 
-res = penalty.penalty(startPoints[0], 
-funcsToTest[0], 
-0.1, 
-10, 
-0.01,
-restrictionsOfEquality[0], 
-restrictionsOfNotEquality[0])
-print(res)
+# print("PENALTY METHOD: ")
+# for i in range(len(startPoints)):
+#     res = penalty.penalty(startPoints[i], 
+#     funcsToTest[i], 
+#     0.1, 
+#     10, 
+#     0.01,
+#     restrictionsOfEquality[i], 
+#     restrictionsOfNotEquality[i])
+#     print(f"{i}:") 
+#     r = ""
+#     for j in res:
+#         r+=f"{j:.{5}f} "
+#     print(r)
+
+print("BARRIER METHOD: ")
+for i in [4,5]:
+    res = barrier.barrier(startPoints[i], 
+    funcsToTest[i], 
+    100, 
+    0.5, 
+    0.01,
+    restrictionsOfNotEquality[i])
+    print(f"{i}:") 
+    r = ""
+    for j in res:
+        r+=f"{j:.{5}f} "
+    print(r)
