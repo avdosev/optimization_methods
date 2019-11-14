@@ -7,7 +7,7 @@ def getAuxilitaryFunctionResult(f, r, rest_not_eq, x):
     x2 = x[1]
     H = 0 
     for i in rest_not_eq:
-        H += 1/(0.000001+pow(max(0, i(x1,x2)),2))
+        H += 1/(0.000000001+pow(max(0, -i(x1,x2)),2))
 
     return f(x) + r*H
 
@@ -36,6 +36,6 @@ def barrier(x0, f, r, z, eps, rest_not_eq):
                 xcur = xnew
             xnew = xtemp
         r *= z
-        if atLeastOnePointFound and (distance(xcur, xnew)<eps) :
+        if atLeastOnePointFound and (distance(xcur, xnew)<eps*eps) :
             break
     return xnew
