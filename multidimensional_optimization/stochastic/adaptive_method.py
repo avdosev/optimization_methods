@@ -2,12 +2,10 @@ import numpy as np
 from typing import Callable, List
 
 
-def adaptive_method(func: Callable[[np.array], float], x0, M: int, N: int, eps: float = 0.0001):
+def adaptive_method(func: Callable[[np.array], float], x0, M: int, N: int, a: float = 1.5, b: float = 0.5, eps: float = 0.0001):
     x = x0
     t = 1
     k = 0
-    a = 1
-    b = 0.5
     j = 1
     while k < N:
         e = np.random.uniform(-1, 1, len(x))

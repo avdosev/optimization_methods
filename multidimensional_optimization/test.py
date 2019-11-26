@@ -103,6 +103,21 @@ class TestMultiVariableOptimization(unittest.TestCase):
             print("Разница: ", funcsToTest[i](res) - func_res[i])
             self.assertAlmostEqual(func_res[i], funcsToTest[i](res), delta=eps)
 
+    def test_adaptive_method(self):
+        from stochastic.adaptive_method import adaptive_method
+        print("-----------------------")
+        print("adaptive_method")
+        print("-----------------------")
+        eps = precision
+        for i in range(len(funcsToTest)):
+            print("\nTEST ", i+1 )
+            res = adaptive_method(funcsToTest[i], startPoint[i], 1000, 100, eps)
+            print("Точки:", res)
+            print("Получено:",  funcsToTest[i](res))
+            print("Должно быть: ", func_res[i])
+            print("Разница: ", funcsToTest[i](res) - func_res[i])
+            self.assertAlmostEqual(func_res[i], funcsToTest[i](res), delta=eps)
+
             
 if __name__ == '__main__':
     unittest.main()
