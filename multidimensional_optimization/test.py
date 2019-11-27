@@ -42,6 +42,19 @@ step = [[1.,1.],[1.,1.],[1.,1.,1.,1.],[1.,1.,1.,1.]]
 precision = 0.01
 func_res = [0.,0.,0.,0.]
         
+def test_function(self, method_name, test_fnc):
+    print("-----------------------")
+    print(method_name)
+    print("-----------------------")
+    eps = precision
+    for i in range(len(funcsToTest)):
+        print("\nTEST ", i+1 )
+        res = test_fnc(i)
+        print("Точки:", res)
+        print("Получено:",  funcsToTest[i](res))
+        print("Должно быть: ", func_res[i])
+        print("Разница: ", funcsToTest[i](res) - func_res[i])
+        self.assertAlmostEqual(func_res[i], funcsToTest[i](res), delta=eps)
 
 class TestMultiVariableOptimization(unittest.TestCase):
     def test_coordinate_descense(self):
@@ -50,97 +63,42 @@ class TestMultiVariableOptimization(unittest.TestCase):
         def odm(fnc, x0, h):
             res = minimize(fnc, x0, method='nelder-mead',
                 options={'xatol': h, 'disp': False})
-            
             return res.x[0]
 
-        print("-----------------------")
-        print("coordinate_descense")
-        print("-----------------------")
-        eps = precision
-        for i in range(len(funcsToTest)):
-            print("\nTEST ", i+1 )
-            res = coordinate_descent(lambda *args: funcsToTest[i](args), len(startPoint[i]), odm)
-            print("Точки:", res)
-            print("Получено:",  funcsToTest[i](res))
-            print("Должно быть: ", func_res[i])
-            print("Разница: ", funcsToTest[i](res) - func_res[i])
-            self.assertAlmostEqual(func_res[i], funcsToTest[i](res), delta=eps)
+        test_function(self, "coordinate_descense",
+            lambda i: coordinate_descent(lambda *args: funcsToTest[i](args), len(startPoint[i]), odm)
+        )
 
     def test_hooke_jeeves(self):
         from HookeJeeves import HJ
-        print("-----------------------")
-        print("test_hooke_jeeves")
-        print("-----------------------")
-        eps = precision
-        for i in range(len(funcsToTest)):
-            print("\nTEST ", i+1 )
-            res = HJ(startPoint[i],step[i],precision, funcsToTest[i])
-            print("Точки:", res)
-            print("Получено:",  funcsToTest[i](res))
-            print("Должно быть: ", func_res[i])
-            print("Разница: ", funcsToTest[i](res) - func_res[i])
-            self.assertAlmostEqual(func_res[i], funcsToTest[i](res), delta=eps)
+        test_function(self, "test_hooke_jeeves",
+            lambda i: HJ(startPoint[i],step[i],precision, funcsToTest[i])
+        )
             
 
     def test_fletcher_reeves(self):
         from FletcherReeves import FR
-        print("-----------------------")
-        print("test_fletcher_reeves")
-        print("-----------------------")
-        eps = precision
-        for i in range(len(funcsToTest)):
-            print("\nTEST ", i+1 )
-            res = FR(startPoint[i],step[i],precision, funcsToTest[i])
-            print("Точки:", res)
-            print("Получено:",  funcsToTest[i](res))
-            print("Должно быть: ", func_res[i])
-            print("Разница: ", funcsToTest[i](res) - func_res[i])
-            self.assertAlmostEqual(func_res[i], funcsToTest[i](res), delta=eps)
+        test_function(self, "test_fletcher_reeves", 
+            lambda i: FR(startPoint[i],step[i],precision, funcsToTest[i])
+        )
 
     def test_optimal_gradient(self):
         from optimal_gradient_method import optimal_gradient_method
-        print("-----------------------")
-        print("optimal_gradient_method")
-        print("-----------------------")
-        eps = precision
-        for i in range(len(funcsToTest)):
-            print("\nTEST ", i+1 )
-            res = optimal_gradient_method(funcsToTest[i], startPoint[i])
-            print("Точки:", res)
-            print("Получено:",  funcsToTest[i](res))
-            print("Должно быть: ", func_res[i])
-            print("Разница: ", funcsToTest[i](res) - func_res[i])
-            self.assertAlmostEqual(func_res[i], funcsToTest[i](res), delta=eps)
+        test_function(self, "optimal_gradient_method", 
+            lambda i: optimal_gradient_method(funcsToTest[i], startPoint[i])
+        )
 
     def test_adaptive_method(self):
         from stochastic.adaptive_method import adaptive_method
-        print("-----------------------")
-        print("adaptive_method")
-        print("-----------------------")
-        eps = precision
-        for i in range(len(funcsToTest)):
-            print("\nTEST ", i+1 )
-            res = adaptive_method(funcsToTest[i], startPoint[i], 1000, 100, eps)
-            print("Точки:", res)
-            print("Получено:",  funcsToTest[i](res))
-            print("Должно быть: ", func_res[i])
-            print("Разница: ", funcsToTest[i](res) - func_res[i])
-            self.assertAlmostEqual(func_res[i], funcsToTest[i](res), delta=eps)
+        test_function(self, "adaptive_method", 
+            lambda i: adaptive_method(funcsToTest[i], startPoint[i], 1000, 100)
+        )
 
     def test_boltzman_method(self):
         from stochastic.boltzmann_method import boltzmann_method
-        print("-----------------------")
-        print("boltzman_method")
-        print("-----------------------")
-        eps = precision
-        for i in range(len(funcsToTest)):
-            print("\nTEST ", i+1 )
-            res = boltzmann_method(startPoint[i], 1., funcsToTest[i], 10000)
-            print("Точки:", res)
-            print("Получено:",  funcsToTest[i](res))
-            print("Должно быть: ", func_res[i])
-            print("Разница: ", funcsToTest[i](res) - func_res[i])
-            self.assertAlmostEqual(func_res[i], funcsToTest[i](res), delta=eps)
+        test_function(self, "boltzman_method", 
+            lambda i: boltzmann_method(startPoint[i], 1., funcsToTest[i], 10000)
+        )
 
             
 if __name__ == '__main__':
