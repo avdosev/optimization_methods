@@ -27,6 +27,15 @@ def f4(x):
             (x2-2*x3)**4+
             10*(x1-x4)**4)
 
+def f5(x):
+    x, y = x
+    return (-0.15*y)**2 + (0.08*x)**2 - 4*math.cos(-1.2*y) - 4*math.cos(0.64*x) + 8
+
+def f6(x):
+    x, y = x
+    return -10/(0.005*(x**2+y**2)-math.cos(x)*math.cos(y/1.41421356237309504880168)+2)+10
+
+
 funcsToTest = [f1, f2,f3,f4] 
 startPoint = [[0.,0.],[0.,0.],[0.,0.,0.,0.],[1.,1.,1.,1.]]
 step = [[1.,1.],[1.,1.],[1.,1.,1.,1.],[1.,1.,1.,1.]]
@@ -112,6 +121,21 @@ class TestMultiVariableOptimization(unittest.TestCase):
         for i in range(len(funcsToTest)):
             print("\nTEST ", i+1 )
             res = adaptive_method(funcsToTest[i], startPoint[i], 1000, 100, eps)
+            print("Точки:", res)
+            print("Получено:",  funcsToTest[i](res))
+            print("Должно быть: ", func_res[i])
+            print("Разница: ", funcsToTest[i](res) - func_res[i])
+            self.assertAlmostEqual(func_res[i], funcsToTest[i](res), delta=eps)
+
+    def test_boltzman_method(self):
+        from stochastic.boltzmann_method import boltzmann_method
+        print("-----------------------")
+        print("boltzman_method")
+        print("-----------------------")
+        eps = precision
+        for i in range(len(funcsToTest)):
+            print("\nTEST ", i+1 )
+            res = boltzmann_method(startPoint[i], 1., funcsToTest[i], 10000)
             print("Точки:", res)
             print("Получено:",  funcsToTest[i](res))
             print("Должно быть: ", func_res[i])
