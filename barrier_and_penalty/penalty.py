@@ -1,28 +1,22 @@
 import scipy.optimize
 import numpy as np
-from FletcherReeves import FR
+from optimal_gradient_method import *
 
 def getAuxilitaryFunctionResult(f, r, rest_eq, rest_not_eq, x):
     x1 = x[0]
     x2 = x[1]
-    H = 0
-    for i in rest_eq:
-        H += pow(abs(i(x1,x2)),2)
-    for i in rest_not_eq:
-        H += pow(max(0, i(x1,x2)),2)
-    return f(x) + r*H
+    H = sum([pow(abs(i(x1,x2)),2) for i in rest_eq])
+    H2 = sum([pow(max(0, i(x1,x2)),2) for i in rest_not_eq])
 
-def distance(a,b):
-    sum = 0
-    for i in range(len(a)):
-        sum += (b[i]-a[i])**2
-    return sum
+    return f(x) + r*(H+H2)
 
 def penalty(x0, f, r, z, eps, rest_eq, rest_not_eq):
     xcur = np.array(x0)
-    xnew = FR(xcur, [1,1], eps, lambda x:getAuxilitaryFunctionResult(f, r, rest_eq, rest_not_eq, x))
-    while (distance(xcur, xnew)>eps):
+    auxilitary = lambda x: getAuxilitaryFunctionResult(f, r, rest_eq, rest_not_eq, x)
+    xnew = optimal_gradient_method( auxilitary, xcur, eps )
+
+    while ((xcur-xnew)**2).sum() > eps:
         r *= z
-        xcur = xnew
-        xnew = FR(xcur, [1,1], eps, lambda x:getAuxilitaryFunctionResult(f, r, rest_eq, rest_not_eq, x))
+        xcur, xnew = xnew, optimal_gradient_method( auxilitary, xcur, eps )
+
     return xnew
