@@ -72,7 +72,7 @@ class TestMultiVariableOptimization(unittest.TestCase):
             return res.x[0]
 
         test_function(self, "coordinate_descense",
-            lambda i: coordinate_descent(lambda *args: funcsToTest[i](args), len(startPoint[i]), odm)
+            lambda i: coordinate_descent(lambda *args: funcsToTest[i](args), startPoint[i], odm)
         )
 
     def test_hooke_jeeves(self):

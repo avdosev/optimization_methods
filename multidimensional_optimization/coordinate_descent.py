@@ -1,15 +1,13 @@
 import numpy as np
 from typing import Callable, List
 
-def coordinate_descent(func: Callable[..., float], N: int, odm: Callable[[Callable[[float], float], float, float], float], eps: float = 0.0001, step_crushing_ratio: float = 0.1):
+def coordinate_descent(func: Callable[..., float], x0: List[float], odm: Callable[[Callable[[float], float], float, float], float], eps: float = 0.0001, step_crushing_ratio: float = 0.99):
     k = 0
+    N = len(x0)
     h = np.array([1.0]*N)
-    x_points = [ [0]*N ]
-
-    def euclidean_norm(h: np.array):
-        return np.sqrt((h**2).sum())
+    x_points = [ x0 ]
     
-    while euclidean_norm(h) > eps:
+    while h[0] > eps:
         x_points.append([0]*N)
         for i in range(N):
             args = x_points[k].copy()
@@ -23,10 +21,10 @@ def coordinate_descent(func: Callable[..., float], N: int, odm: Callable[[Callab
 
             x_points[k+1][i] = ak
 
-        if any([abs(x_points[k+1][i] - x_points[k][i]) > eps for i in range(N)]):
-            k+=1
-            continue 
+        if np.linalg.norm(np.array(x_points[k+1])-np.array(x_points[k])) <= eps:
+            break
 
+        k += 1
         h *= step_crushing_ratio
     
-    return x_points[k+1]
+    return x_points[len(x_points)-1]
