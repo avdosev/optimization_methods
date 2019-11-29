@@ -2,6 +2,9 @@ import pylab
 import numpy as np
 import matplotlib.pyplot as plt
 
+import scipy
+from scipy.optimize import minimize
+
 def f1(x):
     return 4*pow((x[0]-5),2) + pow((x[1]-6),2) 
 
@@ -51,25 +54,27 @@ def makeData(fun, xstart, xend, ystart,yend):
 
     return xgrid, ygrid, zgrid
 
-import FletcherReeves
-import HookeJeeves
+def odm(fnc, x0, h):
+    res = minimize(fnc, x0, method='nelder-mead',
+        options={'xatol': h, 'disp': False})
+    return res.x[0]
+
+from optimal_gradient_method import *
 
 if __name__ == '__main__':
     lev = [1, 5, 10, 25, 50, 100, 200]
-    x, y, z = makeData(funcsToTest[1], -5, 5, -5, 5)
+    i = 1
+    x, y, z = makeData(funcsToTest[i], -5, 5, -5, 5)
 
     fig, axes = plt.subplots(1,1)
     axes.contour(x, y, z, levels = lev, colors='k')
 
-    # res = FletcherReeves.FR(startPoint[0], step[0], 0.01, funcsToTest[0])
-    # testP = FletcherReeves.Path
-    res = HookeJeeves.HJ(startPoint[0], step[0], 0.01, funcsToTest[1])
-    test1 = HookeJeeves.Path1
-    test2 = HookeJeeves.Path2
-    test3 = HookeJeeves.Path3
-    test4 = HookeJeeves.Path4
 
-    for point in test1:
+    res, Path = optimal_gradient_method(funcsToTest[i], startPoint[i], 0.01, Path=True )
+
+    print(Path)
+
+    for point in Path:
         plt.scatter(point[0], point[1], color='red', s=2)
 
     # for point in test2:
