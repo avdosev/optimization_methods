@@ -1,7 +1,11 @@
 import numpy as np
 from typing import Callable, List
 
-def coordinate_descent(func: Callable[..., float], x0: List[float], odm: Callable[[Callable[[float], float], float, float], float], eps: float = 0.0001, step_crushing_ratio: float = 0.99):
+def coordinate_descent(func: Callable[..., float], 
+                        x0: List[float], 
+                        odm: Callable[[Callable[[float], float], float, float], float], 
+                        eps: float = 0.0001, 
+                        step_crushing_ratio: float = 0.99):
     k = 0
     N = len(x0)
     h = np.array([1.0]*N)
