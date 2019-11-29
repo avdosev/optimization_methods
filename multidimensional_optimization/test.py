@@ -29,18 +29,24 @@ def f4(x):
 
 def f5(x):
     x, y = x
-    return (-0.15*y)**2 + (0.08*x)**2 - 4*math.cos(-1.2*y) - 4*math.cos(0.64*x) + 8
+    return (0.1*x**2) + (0.1*y**2) - 4*math.cos(0.8*x) - 4*math.cos(0.8*y) + 8
 
 def f6(x):
+    x, y = x
+    return (-0.15*y)**2 + (0.08*x)**2 - 4*math.cos(-1.2*y) - 4*math.cos(0.64*x) + 8
+
+def f7(x):
     x, y = x
     return -10/(0.005*(x**2+y**2)-math.cos(x)*math.cos(y/1.41421356237309504880168)+2)+10
 
 
-funcsToTest = [f1, f2,f3,f4] 
-startPoint = [[0.,0.],[0.,0.],[0.,0.,0.,0.],[1.,1.,1.,1.]]
-step = [[1.,1.],[1.,1.],[1.,1.,1.,1.],[1.,1.,1.,1.]]
+
+
+funcsToTest = [f1, f2, f3, f4, f5, f6] 
+startPoint = [[0.,0.],[0.,0.],[0.,0.,0.,0.],[1.,1.,1.,1.], [1., 1.], [1., 1.]]
+step = [[1.,1.],[1.,1.],[1.,1.,1.,1.],[1.,1.,1.,1.], [1., 1.], [1., 1.]]
 precision = 0.01
-func_res = [0.,0.,0.,0.]
+func_res = [0.,0.,0.,0.,0.,0.]
         
 def test_function(self, method_name, test_fnc):
     print("-----------------------")
@@ -97,7 +103,7 @@ class TestMultiVariableOptimization(unittest.TestCase):
     def test_boltzman_method(self):
         from stochastic.boltzmann_method import boltzmann_method
         test_function(self, "boltzman_method", 
-            lambda i: boltzmann_method(startPoint[i], 1., funcsToTest[i], 10000)
+            lambda i: boltzmann_method(startPoint[i], 1., funcsToTest[i], 100000)
         )
 
             
