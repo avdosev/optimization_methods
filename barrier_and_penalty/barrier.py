@@ -25,4 +25,5 @@ def barrier(x0, f, r, z, eps, rest_not_eq):
 
         r *= z
 
+
     return xnew

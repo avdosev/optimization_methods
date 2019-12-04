@@ -15,7 +15,7 @@ def getAuxilitaryFunctionResult(f, r, rest_eq, rest_not_eq, x):
 def penalty(x0, f, r, z, eps, rest_eq, rest_not_eq):
     xcur = np.array(x0)
     xnew = optimal_gradient_method(lambda x:getAuxilitaryFunctionResult(f, r, rest_eq, rest_not_eq, x), xcur, eps)
-    while ((xcur - xnew)**2).sum()>eps:
+    while ((xcur - xnew)**2).sum() > eps:
         r *= z
         xcur = xnew
         xnew = optimal_gradient_method(lambda x:getAuxilitaryFunctionResult(f, r, rest_eq, rest_not_eq, x), xcur, eps)
