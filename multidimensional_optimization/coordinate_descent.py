@@ -5,7 +5,7 @@ def coordinate_descent(func: Callable[..., float],
                         x0: List[float], 
                         odm: Callable[[Callable[[float], float], float, float], float], 
                         eps: float = 0.0001, 
-                        step_crushing_ratio: float = 0.99, Path: bool = False):
+                        step_crushing_ratio: float = 0.99):
     k = 0
     N = len(x0)
     h = np.array([1.0]*N)
@@ -30,7 +30,5 @@ def coordinate_descent(func: Callable[..., float],
 
         k += 1
         h *= step_crushing_ratio
-    
-    if Path:
-        return x_points[len(x_points)-1], x_points
+
     return x_points[len(x_points)-1]
