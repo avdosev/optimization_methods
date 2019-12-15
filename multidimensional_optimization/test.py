@@ -109,7 +109,7 @@ class TestMultiVariableOptimization(unittest.TestCase):
     def test_best_samples_method(self):
         from stochastic.best_samples import best_samples
         test_function(self, "best_samples_method",
-            lambda i: best_samples(funcsToTest[i], startPoint[i], 150, 500, 1, 0.0001, 0.1)
+            lambda i: best_samples(funcsToTest[i], startPoint[i], 100, 400, 1, 0.00001, 0.1)
         )
 
             
